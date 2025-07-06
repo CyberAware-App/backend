@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 
 from db import models, schemas, database
@@ -216,37 +215,3 @@ async def login(request: schemas.UserLogin, db: Session = Depends(database.get_d
         "user_id": user.id
     }
 
-
-# @router.post("/token", response_model=schemas.Token)
-# async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
-#     """Login for access token (OAuth2 compatible)"""
-    
-#     # OAuth2PasswordRequestForm uses 'username' field, but we store email
-#     # So we treat the username as the email address
-#     user = db.query(models.User).filter(models.User.email == form_data.username).first()
-#     if not user or not security.verify_password(form_data.password, user.hashed_password):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid credentials",
-#             headers={"WWW-Authenticate": "Bearer"}
-#         )
-    
-#     if not user.is_verified:
-#         raise HTTPException(
-#             status_code=status.HTTP_400_BAD_REQUEST,
-#             detail="Please verify your email before logging in"
-#         )
-    
-#     access_token_expires = timedelta(minutes=security.ACCESS_TOKEN_EXPIRE_MINUTES)
-#     access_token = security.create_access_token(
-#         data={"sub": user.email},
-#         expires_delta=access_token_expires
-#     )
-#     return {
-#         "access_token": access_token,
-#         "token_type": "bearer",
-#         "user_id": user.id
-#     }
-    
-
-    
